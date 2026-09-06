@@ -1,13 +1,21 @@
 import { useState, useEffect, useRef } from 'react'
 
+import "./App.css"
+import NavBar from './components/NavBar';
+import DeviceName from './components/DeviceName';
+import DeviceList from './components/DeviceList';
+
+
+
 const CHUNK_SIZE = 64 * 1024;
 function App() {
-  const [deviceName, setDeviceName] = useState("Unknown Device");
   const [allDevices, setAllDevices] = useState(null)
   const [selectedDevice, setSelectedDevice] = useState(null)
   const [selectedFile, setSelectedFile] = useState(null)
   const [incomingFile, setIncomingFile] = useState(null)
   const [progress, setProgress] = useState(0)
+  const [isSending, setIsSending] = useState(false)
+  const [showDevices, setShowDevices] = useState(false)
 
   const socketRef = useRef(null)
   const transferIdRef = useRef(null)
@@ -18,7 +26,7 @@ function App() {
   const incomingTransferRef = useRef(null);
   const incomingFileRef = useRef(null);
 
-
+  const WS_URL = import.meta.env.VITE_WS_URL
   useEffect(() => {
     // checking device type 
     const device = navigator.userAgent
@@ -30,11 +38,10 @@ function App() {
     }
 
     socketRef.current = new WebSocket(
-      "ws://192.168.31.164:8000/ws/devices/"
+      `ws://${WS_URL}/ws/devices/`
     );
 
     socketRef.current.onopen = () => {
-      console.log("WebSocket connected!");
 
       // get device_id, if not then create one 
       let device_id = localStorage.getItem("device_id")
@@ -42,10 +49,13 @@ function App() {
         device_id = Date.now().toString() + "-" + Math.random().toString(36).slice(2);
         localStorage.setItem("device_id", device_id)
       }
-
+      const deviceName = localStorage.getItem("device_name")
+      if (!deviceName){
+        deviceName = "Unknown Device"
+      }
       socketRef.current.send(JSON.stringify({
         device_id,
-        device_name: "Anup's Device",
+        device_name: deviceName,
         device_type
       }))
 
@@ -97,13 +107,11 @@ function App() {
         }     //if block ends here
 
         if (data.type === "file_ready") {
-          console.log("Receiver is ready!")
           currentChunkRef.current = 0
           sendNextChunk()
         }
 
         if (data.type === "chunk_ack") {
-          console.log("Chunk acknowledged:", data.chunk_index)
 
           // Calculate progress from acknowledged chunks
           const completedChunks = data.chunk_index + 1
@@ -114,7 +122,6 @@ function App() {
           setProgress(progress)
 
           if (data.chunk_index === totalChunksRef.current - 1) {
-            console.log("All chunks sent!")
 
             socketRef.current.send(JSON.stringify({
               action: "transfer_complete",
@@ -129,7 +136,6 @@ function App() {
         }
 
         if (data.type === "transfer_complete") {
-          console.log("Transfer completed!")
 
           // Combine all received chunks into one file
           const blob = new Blob(incomingChunksRef.current)
@@ -156,7 +162,6 @@ function App() {
 
         // Index of the chunk we just received
         const chunkIndex = incomingChunksRef.current.length - 1
-        console.log("Received chunk:", chunkIndex)
 
         // Tell Django that this chunk was received
         socketRef.current.send(JSON.stringify({
@@ -169,10 +174,6 @@ function App() {
 
     }
 
-    socketRef.current.onclose = () => {
-      console.log("WebSocket disconnected!");
-    };
-
     return () => {
       socketRef.current.close();
     };
@@ -184,23 +185,16 @@ function App() {
 
     if (!selectedDevice) {
       alert("Select a device first")
-      console.log("Select a device first")
     }
 
     if (!selectedFile) {
       alert("Select a file")
-      console.log("Select a file")
     }
 
     if (selectedDevice && selectedFile) {
-      console.log("Selected Device: ", selectedDevice)
-      console.log("Selected File:")
-      console.log("Name: ", selectedFile.name)
-      console.log("Size: ", selectedFile.size)
       setProgress(0)
       const transferId = Date.now().toString() + "-" + Math.random().toString(36).slice(2);
       transferIdRef.current = transferId
-      console.log("Transfer ID: ", transferId)
       const totalChunks = Math.ceil(selectedFile.size / CHUNK_SIZE);
       totalChunksRef.current = totalChunks;
 
@@ -213,7 +207,7 @@ function App() {
         total_chunks: totalChunks
       }))
     }
-
+    setIsSending(true)
   }
 
   function sendNextChunk() {
@@ -225,6 +219,39 @@ function App() {
     const chunk = selectedFileRef.current.slice(start, end)
     socketRef.current.send(chunk)
   }
+
+  function showDeviceList(){
+    setShowDevices(true)
+  }
+
+  function setFile(file){
+    setSelectedFile(file)
+    selectedFileRef.current = file
+  }
+
+  function setDevice(value){
+    setSelectedDevice(value)
+  }
+  return (
+    <>
+    <main className='main fbHome'>
+      <NavBar />
+      <section className="body fbHome">
+        <DeviceName showDevice={showDeviceList}/>
+        {
+          showDevices && 
+          <DeviceList 
+          setFile={setFile} 
+          sendFile={sendFile} 
+          devices={allDevices} 
+          setDevice={setDevice}
+          progress={progress}/>
+        }
+      </section>
+    </main>
+
+    </>
+  );
 
   return (
     <div>
@@ -251,22 +278,7 @@ function App() {
           })
         ) : (<h4>Waiting for the message</h4>)
       }
-      {
-        selectedFile && (
-          <div>
-            <p>
-              Sending: {selectedFile.name}
-            </p>
-
-            <progress
-              value={progress}
-              max="100"
-            />
-
-            <span>{progress}%</span>
-          </div>
-        )
-      }
+      
     </div>
   );
 }

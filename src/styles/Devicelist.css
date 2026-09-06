@@ -1,0 +1,279 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-size: 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.fbDL {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sharingWindow {
+    width: fit-content;
+    max-width: 95%;
+    min-height: 60%;
+    height: fit-content;
+    min-height: 15rem;
+    flex-direction: column;
+    border: 1px solid;
+    padding: 2rem 0;
+    margin: 5rem 0;
+    background-color: rgba(255, 255, 255, 0.368);
+    animation: onLoad 0.3s ease;
+    border-radius: .6rem;
+}
+
+.sharingWindowTitle {
+    font-size: 2rem;
+    font-weight: 650;
+    margin: 1rem 0;
+}
+
+.fileinputBox {
+    width: 100%;
+    height: fit-content;
+    max-height: 25rem;
+    padding: 0 10rem;
+    justify-content: left;
+}
+
+.fileInput {
+    width: 80%;
+    padding: 1rem;
+    color: rgb(0, 180, 0);
+    font-weight: 500;
+}
+
+.fileInput:hover {
+    cursor: pointer;
+}
+
+.fileInput::file-selector-button {
+    background-color: rgba(88, 88, 88, 0.256);
+    color: rgb(25, 25, 25);
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 0.3rem;
+    margin: 0 .5rem;
+    transition: all 0.3s ease;
+}
+
+.fileInput::file-selector-button:hover {
+    background-color: rgba(114, 114, 114, 0.897);
+    cursor: pointer;
+}
+
+.fileInput::file-selector-button:active {
+    transform: scale(0.8);
+}
+
+.deviceList {
+    width: 100%;
+    height: fit-content;
+    max-height: 20rem;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    justify-content: left;
+    margin: .7rem 0;
+}
+
+.device {
+    width: 90%;
+    max-width: 90%;
+    height: fit-content;
+    max-height: 20rem;
+    justify-content: left;
+    flex-shrink: 0;
+    border: 1px solid rgba(77, 77, 77, 0.353);
+    margin: .5rem 0;
+    transition: all 0.2s ease;
+    padding: .3rem;
+    border-radius: .3rem;
+}
+
+.device:hover {
+    cursor: pointer;
+    background-color: rgba(240, 248, 255, 0.771);
+}
+
+.device:active {
+    transform: scale(0.9);
+}
+
+.deviceIcon {
+    color: rgb(0, 174, 197);
+    padding: 0.6rem;
+}
+
+.devicelabel {
+    font-size: 1.1rem;
+    padding: 0.6rem 0;
+}
+
+.selected {
+    background-color: rgba(79, 97, 108, 0.89);
+    color: aliceblue;
+}
+
+.selected:hover {
+    background-color: rgba(79, 97, 108, 0.89);
+}
+
+.sendBTN {
+    width: 15rem;
+    height: 2.5rem;
+    outline: none;
+    border: 1px solid rgba(52, 52, 52, 0.386);
+    /* border: none; */
+    font-size: 1.2rem;
+    border-radius: .4rem;
+    margin: 1rem;
+    background-color: rgba(87, 164, 192, 0.767);
+    transition: all 0.3s ease;
+    color: rgb(255, 255, 255);
+}
+
+.sendBTN:hover {
+    background-color: rgba(57, 116, 137, 0.767);
+    cursor: pointer;
+}
+
+.sendBTN:active {
+    transform: scale(0.9);
+}
+
+.noDevicesBox {
+    width: 100%;
+    height: fit-content;
+    max-height: 50rem;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.noDeviceIcon {
+    width: 4rem;
+    height: 4rem;
+    color: blueviolet;
+    margin: .5rem 0;
+}
+
+.noDeviceHeader {
+    font-size: 1.4rem;
+    margin: .5rem 0;
+    font-weight: 550;
+}
+
+.noDeviceDesc {
+    color: rgb(58, 58, 58);
+    font-size: 0.9rem;
+    width: 65%;
+    text-align: center;
+    margin: .5rem 0;
+}
+
+
+
+@media screen and (max-width: 468px) {
+    .sharingWindow {
+        width: 95%;
+        padding: 1rem 0;
+        margin: 2rem 0;
+    }
+
+    .sharingWindowTitle {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .fileInput::file-selector-button {
+        font-size: 0.9rem;
+    }
+
+    .device {
+        width: 90%;
+        margin: 0.3rem 0;
+    }
+
+    .devicelabel {
+        font-size: 1rem;
+    }
+
+    .sendBTN {
+        width: 12rem;
+        height: 2rem;
+        font-size: 1rem;
+    }
+
+    .noDeviceIcon {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .noDeviceHeader {
+        font-size: 1.2rem;
+    }
+
+    .noDeviceDesc {
+        font-size: 0.85rem;
+        width: 80%;
+    }
+}
+
+
+
+@media screen and (min-width: 469px) and (max-width: 768px) {
+    .sharingWindow {
+        width: 95%;
+        padding: 1rem 0;
+        margin: 2rem 0;
+    }
+
+    .sharingWindowTitle {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .fileInput::file-selector-button {
+        font-size: 0.9rem;
+    }
+
+    .device {
+        width: 90%;
+        margin: 0.3rem 0;
+    }
+
+    .devicelabel {
+        font-size: 1.1rem;
+    }
+
+    .sendBTN {
+        width: 12rem;
+        height: 2.3rem;
+        font-size: 1.1rem;
+    }
+
+    .noDeviceIcon {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .noDeviceHeader {
+        font-size: 1.2rem;
+    }
+
+    .noDeviceDesc {
+        font-size: 0.85rem;
+        width: 80%;
+    }
+}

@@ -1,0 +1,126 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    font-size: 10px;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.fbnav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav{
+    width: 90%;
+    height: 10vh;
+    min-height: 5vh;
+    max-height: 15vh;
+    background-color: rgba(255, 255, 255, 0.397);
+    justify-content: space-between;
+    padding: 0 2rem;
+    border-radius: 1rem;
+    margin: 1rem 0;
+    box-shadow: inset .1rem .1rem .2rem black;
+}
+
+.iconStyle{
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: .5rem;
+    color: rgb(137, 3, 255);
+}
+.navHeading{
+    font-size: 2rem;
+    margin: 0 1rem;
+    font-weight: 600;
+    color: rgb(0, 0, 73);
+}
+a{
+    margin: 0 0.5rem;
+}
+a img{
+    width: 2rem;
+}
+
+
+
+
+@media screen and (max-width: 468px) {
+.nav{
+    width: 85%;
+    height: 7vh;
+    padding: 0 1rem;
+    border-radius: 0.8rem;
+}
+
+.iconStyle{
+    width: 1.9rem;
+    height: 1.9rem;
+    padding: 0;
+}
+.navHeading{
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+}
+a{
+    margin: 0 0.3rem;
+}
+a img{
+    width: 1.5rem;
+}
+}
+
+
+@media screen and (min-width: 469px) and (max-width: 768px)  {
+.nav{
+    width: 90%;
+    height: 7vh;
+    padding: 0 1rem;
+    border-radius: 0.8rem;
+}
+
+.iconStyle{
+    width: 1.9rem;
+    height: 1.9rem;
+    padding: 0;
+}
+.navHeading{
+    font-size: 1.4rem;
+    margin: 0 0.5rem;
+}
+a{
+    margin: 0 0.5rem;
+}
+a img{
+    width: 1.7rem;
+}
+}
+
+
+@media screen and (min-width: 769px) and (max-width: 1024px)  {
+.nav{
+    width: 90%;
+    height: 7vh;
+    padding: 0 1rem;
+    border-radius: 0.8rem;
+}
+
+.iconStyle{
+    width: 1.9rem;
+    height: 1.9rem;
+    padding: 0;
+}
+.navHeading{
+    font-size: 1.4rem;
+    margin: 0 0.5rem;
+}
+a{
+    margin: 0 0.5rem;
+}
+a img{
+    width: 2rem;
+}
+}
